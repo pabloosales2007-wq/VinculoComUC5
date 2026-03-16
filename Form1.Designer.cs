@@ -28,13 +28,47 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.lboDados = new System.Windows.Forms.ListBox();
+            this.btnObterDados = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // lboDados
+            // 
+            this.lboDados.BackColor = System.Drawing.Color.MediumPurple;
+            this.lboDados.FormattingEnabled = true;
+            this.lboDados.Location = new System.Drawing.Point(65, 35);
+            this.lboDados.Name = "lboDados";
+            this.lboDados.Size = new System.Drawing.Size(215, 173);
+            this.lboDados.TabIndex = 0;
+            // 
+            // btnObterDados
+            // 
+            this.btnObterDados.Font = new System.Drawing.Font("Microsoft Uighur", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnObterDados.Location = new System.Drawing.Point(65, 229);
+            this.btnObterDados.Name = "btnObterDados";
+            this.btnObterDados.Size = new System.Drawing.Size(215, 33);
+            this.btnObterDados.TabIndex = 1;
+            this.btnObterDados.Text = "Extrair Dados";
+            this.btnObterDados.UseVisualStyleBackColor = true;
+            this.btnObterDados.Click += new System.EventHandler(this.btnObterDados_Click);
+            // 
+            // Form1
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnObterDados);
+            this.Controls.Add(this.lboDados);
+            this.Name = "Form1";
             this.Text = "Form1";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.ListBox lboDados;
+        private System.Windows.Forms.Button btnObterDados;
     }
 }
 
