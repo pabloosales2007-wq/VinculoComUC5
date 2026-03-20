@@ -3,19 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 
 namespace VinculoComUC5
 {
     /// <summary>
     /// Representa as pessoas da base de dados dadosdogoverno.txt
     /// </summary>
-    internal class Pessoa
+    public class Pessoa
     {
         // private → Este campo fica visivel apenas no Pessoa.cs
         private string _nome;
         private char _sexo;
         private string _escolaridade;
         private string _classe;
+
+        public string nome
+        {
+            get { return _nome; }
+        }
+
+        public char sexo
+        {
+            get { return _sexo; }
+        }
+
+        public string classe
+        {
+            get { return _classe; }
+        }
+
+
+        public string escolaridade
+        {
+            get { return _escolaridade; }
+        }
+
+
+
 
 
         /// <summary>
@@ -36,10 +61,27 @@ namespace VinculoComUC5
             _classe = classe;
 
         }
-        //public override string ToString() => _nome;
-        public override string ToString()
+
+        /// <summary>
+        /// Atualizar os campos do dado selecionado
+        /// </summary>
+        /// <param name="nome">Atualizar o campo do nome</param>
+        /// <param name="escolaridade">Atualizar o campo da escolaridade</param>
+        /// <param name="sexo">Atualizar o campo do sexo</param>
+        /// <param name="classe">Atualizar o campo de classe</param>
+        public void atualizarCampos (string nome, string escolaridade, char sexo, string classe)
         {
-            return _nome;
+            _nome = nome;
+            _sexo = sexo;
+            _classe = classe;
+            _escolaridade = escolaridade;
         }
+
+
+        //public override string ToString() => _nome;
+
+        //public override string ToString() { return _nome; }
+
+        public override string ToString() => $"{nome} - {sexo} - {escolaridade} - {classe}";
     }
 }

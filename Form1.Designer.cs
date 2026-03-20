@@ -40,11 +40,12 @@
             this.lboDados.Name = "lboDados";
             this.lboDados.Size = new System.Drawing.Size(679, 290);
             this.lboDados.TabIndex = 0;
+            this.lboDados.SelectedIndexChanged += new System.EventHandler(this.lboDados_SelectedIndexChanged);
             // 
             // btnObterDados
             // 
             this.btnObterDados.Font = new System.Drawing.Font("Microsoft Uighur", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnObterDados.Location = new System.Drawing.Point(65, 349);
+            this.btnObterDados.Location = new System.Drawing.Point(65, 359);
             this.btnObterDados.Name = "btnObterDados";
             this.btnObterDados.Size = new System.Drawing.Size(215, 33);
             this.btnObterDados.TabIndex = 1;
