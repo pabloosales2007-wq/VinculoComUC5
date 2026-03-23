@@ -22,6 +22,10 @@ namespace VinculoComUC5
         public Form1()
         {
             InitializeComponent();
+            //Quando iniciar o aplicativo os botoes estarao desativados so liberando quando abrir um arquivo
+            btnSalvar.Enabled = false;
+            btnSalvarComo.Enabled = false;
+            btnInserir.Enabled = false;
         }
         /// <summary>
         /// Ao clicar o codigo ira visualizar os dados
@@ -31,7 +35,14 @@ namespace VinculoComUC5
 
         private void btnObterDados_Click(object sender, EventArgs e)
         {
-            //Vamos voltar nessa linha - 1
+            //Alterar para ativar os botoes
+            btnSalvar.Enabled = true;
+            btnSalvarComo.Enabled = true;
+            btnInserir.Enabled = true;
+            //Limpar nossa lista
+            lboDados.Items.Clear();
+
+            
             leitura.Filter = "|*.txt";
             leitura.Title = "Selecione o arquivo que contem os dados";
             //Verificar se deu tudo certo ao clicar em OK, apos selecionar o dado
@@ -50,9 +61,10 @@ namespace VinculoComUC5
                 //O File, ira fazer a leitura dos dados dentro do arquivo que passei o caminho
                 var textoLido = File.ReadAllText(caminho);
                 //Extrair texto e coloca dentro do vetor linhas
-                string[] linhas = textoLido.ToString().Split('\n'); 
+                string[] linhas = textoLido.ToString().Split('\n');
                 //for (int i = 0, i < linhas.lenght;i++) lboDados.Itens.Add(linha[i])
                 //foreach (string linha in linhas) lboDados.Items.Add(linha);
+                
                 for (int i = 0; i < linhas.Length; i = i + 4)
                 {
                     string nome = linhas[i]; //Vem do arquivo dadosdogoverno.txt
@@ -61,6 +73,8 @@ namespace VinculoComUC5
                     string classe = linhas[i + 3];
                     Pessoa novaPessoa = new Pessoa(nome, sexo, escolaridade, classe);
                     lboDados.Items.Add(novaPessoa);
+                    
+                    
 
                 }
 
@@ -116,6 +130,80 @@ namespace VinculoComUC5
             //Atualiza nosso listBox com as novas informações
             lboDados.Update();
 
+        }
+
+        private void btnInserir_Click(object sender, EventArgs e)
+        {   
+            // Cria uma nova pessoa
+            Pessoa novaPessoa;
+            // Aguarda uma resposta de Cadastro
+            using(Cadastro cadastro = new Cadastro())
+            {
+                cadastro.ShowDialog();
+                novaPessoa = cadastro.pessoa;
+            }
+            //Caso nova pessoa seja vazia, nao adiciona na lista
+            if (novaPessoa == null)
+                return;
+            //Adiciona a nova pessoa no final da lista
+            lboDados.Items.Add(novaPessoa);
+            lboDados.Update();
+
+        }
+
+        private void btnSalvar_Click(object sender, EventArgs e)
+        {
+            // Se nao tiver base de dados impede o salvamento
+            if (caminho == null) return;
+
+            // Faz a abertura do arquivo txt
+            StreamWriter salvarArquivo = new StreamWriter(caminho);
+
+            // Cria o texto para salvamento
+            string texto = "";
+            //Adiciona os dados dentro do arquivo
+            foreach (Pessoa pessoa in lboDados.Items)
+            {
+                texto += pessoa.nome + "\n";
+                texto += pessoa.sexo == 'F' ? "Feminino\n" : "Masculino\n";
+                texto += pessoa.escolaridade + "\n";
+                texto += pessoa.classe + "\n";
+            }
+            //Salva os dados dentro do arquivo
+            salvarArquivo.WriteLine(texto);
+            //Fecha o arquivo salvo
+            salvarArquivo.Close();
+        }
+
+        private void btnSalvarComo_Click(object sender, EventArgs e)
+        {
+            //Se nao tiver nenhum elemento na lista, impede de continuar 
+            if (lboDados.Items.Count == 0) return;
+            // Filtra , surege e intitula o dialogo
+            salvamento.Filter = "Arquivo TXT|*.txt";
+            salvamento.FileName = "dadosdogoverno";
+            salvamento.Title = "Salvar arquivo";
+            //Verifica se a pessoa selecionou o local de salvamento e o nome do arquivo
+            if (salvamento.ShowDialog() != DialogResult.OK &&
+                salvamento.FileName == null) return;
+            FileStream abrirArquivo = salvamento.OpenFile() as FileStream;
+            StreamWriter salvandoArquivo = new StreamWriter(abrirArquivo);
+            // Trecho parecido com salvar
+            //Cria o texto para o salvamento
+            string texto = "";
+            //Adiciona os dados dentro do arquivo
+            foreach (Pessoa pessoa in lboDados.Items)
+            {
+                texto += pessoa.nome + "\n";
+                texto += pessoa.sexo == 'F' ? "Feminino\n" : "Masculino\n";
+                texto += pessoa.escolaridade + "\n";
+                texto += pessoa.classe + "\n";
+            }
+            //Salva os dados dentro do arquivo
+            salvandoArquivo.WriteLine(texto);
+            //Fecha o arquivo salvo
+            abrirArquivo.Close();
+            salvandoArquivo.Close();
         }
     }
 }

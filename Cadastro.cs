@@ -18,6 +18,16 @@ namespace VinculoComUC5
         private Pessoa __pessoa;
 
         /// <summary>
+        /// Construtor para inserção dos dados
+        /// </summary>
+        public Cadastro()
+        {
+            InitializeComponent();
+            btnDeletar.Enabled = false;
+            btnAtualizar.Text = "Inserir";
+        }
+
+        /// <summary>
         /// Construindo o formulario, precisa ter no inicioo a pessoa a ser editada
         /// </summary>
         /// <param name="pessoa">passa a pessoa antiga para a atualização</param>
@@ -64,8 +74,11 @@ namespace VinculoComUC5
 
             string escolaridade = txtEscolaridade.Text;
             string classe = cboClasse.SelectedItem as string;
-
-            __pessoa.atualizarCampos(nome, escolaridade, sexo , classe);
+            
+            if (__pessoa ==  null) 
+                __pessoa = new Pessoa(nome, sexo, escolaridade,classe);
+            else
+                __pessoa.atualizarCampos(nome, escolaridade, sexo, classe);
             Close();
         }
         /// <summary>
