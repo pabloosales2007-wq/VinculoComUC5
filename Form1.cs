@@ -73,28 +73,49 @@ namespace VinculoComUC5
             }
             
         }
+        /// <summary>
+        /// Ao selecionar uma pessoa da lista, posso modificar ou excluir sua informação
+        /// </summary>
 
         private void lboDados_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // Vou obter os dados da pessoa antes de atualizar
             Pessoa antigaPessoa = (sender as ListBox).SelectedItem as Pessoa;
+
+            // Vou valida se o  dado selecionado existe
             if (antigaPessoa == null) return;
 
+            // Cria uma nova entidade de pessoa para obter a atualização dos dados
             Pessoa novaPessoa;
+            // Enquanto o formulatio estiver ativo, espero ele finalizar para obter sua resposta
+            // sobre a atualização dos dados
             using (Cadastro cadastro = new Cadastro(antigaPessoa))
             {
                 cadastro.ShowDialog();
                 novaPessoa = cadastro.pessoa;
             }
+            // Retiro a seleção no ListBox da pessoa que vai ser atualizada
             lboDados.ClearSelected();
-            for (int i = 0; i < lboDados.Items.Count; i++)
+            if (novaPessoa == null)
+                lboDados.Items.Remove(antigaPessoa);
+            else
             {
-                if (lboDados.Items[i] == antigaPessoa)
+                // Procuro a pessoa que sera atualizada
+                for (int i = 0; i < lboDados.Items.Count; i++)
                 {
-                    lboDados.Items[i] = novaPessoa;
-                    break;
+                    // Se encontrar, mude a pessoa que foi atualizada
+                    if (lboDados.Items[i] == antigaPessoa)
+                    {
+
+                        lboDados.Items[i] = novaPessoa;
+                        //Pare de procurar uma pessoa -> comando break
+                        break;
+                    }
                 }
             }
+            //Atualiza nosso listBox com as novas informações
             lboDados.Update();
+
         }
     }
 }
